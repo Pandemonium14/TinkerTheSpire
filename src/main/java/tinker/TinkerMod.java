@@ -3,8 +3,11 @@ package tinker;
 import basemod.AutoAdd;
 import basemod.BaseMod;
 import basemod.interfaces.*;
+import com.evacipated.cardcrawl.mod.stslib.StSLib;
+import com.evacipated.cardcrawl.mod.stslib.icons.CustomIconHelper;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.megacrit.cardcrawl.localization.UIStrings;
+import tinker.cards.LevelIcon;
 import tinker.cards.TestCard;
 import tinker.parts.AbstractPart;
 import tinker.util.PartHelper;
@@ -51,6 +54,7 @@ public class TinkerMod implements PostInitializeSubscriber, EditStringsSubscribe
 
     @Override
     public void receiveEditCards() {
+        CustomIconHelper.addCustomIcon(LevelIcon.get());
         BaseMod.addCard(new TestCard());
     }
 }

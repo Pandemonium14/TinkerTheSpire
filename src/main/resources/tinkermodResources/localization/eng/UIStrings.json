@@ -1,38 +1,38 @@
 {
   "${ModID}:BeamCore": {
     "TEXT" : ["","Beam","","","Deal !D! damage to ALL enemies.",""],
-    "EXTRA_TEXT" : ["Beam Core","Deal 5L damage to ALL enemies."]
+    "EXTRA_TEXT" : ["Beam Core","Deal 5 [tinkermod:LevelIcon] damage to ALL enemies."]
   },
   "${ModID}:ScrambleCore": {
   "TEXT" : ["","Scrambler","","","Enemy loses !M! Strength.",""],
-  "EXTRA_TEXT" : ["Scrambler Core","Enemy loses L Strength. NL *Contraption *Level -1."]
+  "EXTRA_TEXT" : ["Scrambler Core","Enemy loses [tinkermod:LevelIcon] Strength. NL *Contraption *Level -1."]
   },
   "${ModID}:ShockwaveCore": {
     "TEXT" : ["","Shockwave","","","Apply !M! Weak and Vulnerable to ALL enemies.",""],
-    "EXTRA_TEXT" : ["Shockwave Core","Apply L Weak and Vulnerable to ALL enemies."]
+    "EXTRA_TEXT" : ["Shockwave Core","Apply [tinkermod:LevelIcon] Weak and Vulnerable to ALL enemies."]
   },
   "${ModID}:GhostlyFrame": {
     "TEXT" : ["Ghostly ","","","Ethereal. NL ","",""],
-    "EXTRA_TEXT" : ["Ghostly Frame","Ethereal. NL *Contraption *Level +3. NL *Contraption *Cost +1."]
+    "EXTRA_TEXT" : ["Ghostly Frame","Ethereal."]
   },
   "${ModID}:HeavyFrame": {
     "TEXT" : ["Heavy ","","","","",""],
-    "EXTRA_TEXT" : ["Heavy Frame","*Contraption *Level +3. NL *Contraption *Cost +2."]
+    "EXTRA_TEXT" : ["Heavy Frame",""]
   },
   "${ModID}:TurboFrame": {
     "TEXT" : ["Turbo ","","","",""," NL Add a *Void to your discard pile."],
-    "EXTRA_TEXT" : ["Turbo Frame","*Contraption *Level +3. NL Add a *Void to your discard pile."]
+    "EXTRA_TEXT" : ["Turbo Frame","NL Add a *Void to your discard pile."]
   },
   "${ModID}:GlassPlating": {
     "TEXT" : ["",""," of Glass","",""," NL Exhaust."],
-    "EXTRA_TEXT" : ["Glass Plating","*Contraption *Level +1. NL *Contraption *Cost -1. NL Exhaust."]
+    "EXTRA_TEXT" : ["Glass Plating","Exhaust."]
   },
   "${ModID}:ReplicatorPlating": {
-    "TEXT" : ["",""," of Duplication","",""," NL Exhaust."],
-    "EXTRA_TEXT" : ["Replication Plating","*Contraption *Level -1. NL Add a copy of this to your draw pile."]
+    "TEXT" : ["",""," of Duplication","",""," NL Add a copy of this to your draw pile."],
+    "EXTRA_TEXT" : ["Replication Plating","Add a copy of this to your draw pile."]
   },
   "${ModID}:SearingPlating": {
     "TEXT" : ["",""," of the Forge","",""," NL Can be Upgraded any number of times."],
-    "EXTRA_TEXT" : ["Forged Plating","*Contraption *Cost +1. NL Can be Upgraded any number of times."]
+    "EXTRA_TEXT" : ["Forged Plating","Can be Upgraded any number of times."]
   }
 }
