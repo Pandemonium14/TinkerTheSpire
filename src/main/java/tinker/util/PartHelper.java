@@ -1,7 +1,9 @@
 package tinker.util;
 
 import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.random.Random;
+import org.lwjgl.opengl.ARBBufferStorage;
 import tinker.TinkerMod;
 import tinker.parts.AbstractPart;
 import tinker.parts.ContraptionCard;
@@ -115,5 +117,18 @@ public class PartHelper {
         if (!mustTarget && targetsAll && !targetsSelf) return AbstractCard.CardTarget.ALL_ENEMY;
         if (!mustTarget && !targetsAll && targetsSelf) return AbstractCard.CardTarget.SELF;
         return AbstractCard.CardTarget.NONE;
+    }
+
+    public static AbstractPart.PartType rollTypeForMap() {
+        int r = AbstractDungeon.mapRng.random(99);
+        if (r < 70) {
+            return null;
+        } else if (r < 80) {
+            return AbstractPart.PartType.FRAME;
+        } else if (r < 90) {
+            return AbstractPart.PartType.CORE;
+        } else {
+            return AbstractPart.PartType.PLATING;
+        }
     }
 }

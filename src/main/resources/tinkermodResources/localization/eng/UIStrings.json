@@ -1,11 +1,14 @@
 {
+  "${ModID}:PartReward": {
+    "TEXT" : ["Pick up Frame parts","Pick up Core parts","Pick up Plating parts"]
+  },
   "${ModID}:BeamCore": {
     "TEXT" : ["","Beam","","","Deal !D! damage to ALL enemies.",""],
     "EXTRA_TEXT" : ["Beam Core","Deal 5 [tinkermod:LevelIcon] damage to ALL enemies."]
   },
   "${ModID}:ScrambleCore": {
   "TEXT" : ["","Scrambler","","","Enemy loses !M! Strength.",""],
-  "EXTRA_TEXT" : ["Scrambler Core","Enemy loses [tinkermod:LevelIcon] Strength. NL *Contraption *Level -1."]
+  "EXTRA_TEXT" : ["Scrambler Core","Enemy loses [tinkermod:LevelIcon] Strength."]
   },
   "${ModID}:ShockwaveCore": {
     "TEXT" : ["","Shockwave","","","Apply !M! Weak and Vulnerable to ALL enemies.",""],
