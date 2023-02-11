@@ -1,5 +1,6 @@
 package tinker.parts.frames;
 
+import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.actions.common.MakeTempCardInDiscardAction;
 import com.megacrit.cardcrawl.cards.status.VoidCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -34,5 +35,10 @@ public class TurboFrame extends AbstractPart {
     @Override
     public void useEffect(AbstractPlayer p, AbstractMonster m, ContraptionCard c) {
         addToBot(new MakeTempCardInDiscardAction(new VoidCard(),1));
+    }
+
+    @Override
+    public Color colorToApply() {
+        return new Color(0.2f,1f,1f,1f);
     }
 }

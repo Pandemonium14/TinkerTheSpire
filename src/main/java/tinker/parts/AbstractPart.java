@@ -1,5 +1,7 @@
 package tinker.parts;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -7,6 +9,8 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import tinker.TinkerMod;
+import tinker.util.TexLoader;
 
 public abstract class AbstractPart {
 
@@ -59,6 +63,12 @@ public abstract class AbstractPart {
     public void useEffect(AbstractPlayer p, AbstractMonster m, ContraptionCard c) {}
     public void onUpgradeCard(ContraptionCard c) {}
     public void triggerWhenDrawn(ContraptionCard c) {}
+    //end
+
+    //image stuff
+    public Texture basePortrait() {return TexLoader.getTexture(TinkerMod.MISSING);}
+    public Color colorToApply() {return Color.BLACK;}
+    public float splitAngle() {return 0f;}
     //end
 
     //

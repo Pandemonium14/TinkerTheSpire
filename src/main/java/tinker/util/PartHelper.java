@@ -1,5 +1,7 @@
 package tinker.util;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.random.Random;
@@ -55,6 +57,9 @@ public class PartHelper {
         if (potency < 0) potency = 0;
         resultCard.potency = potency;
         for (AbstractPart part : parts) part.applyStats(resultCard);
+
+        Texture[] textures = ImageMaker.makeImage(parts);
+        resultCard.portrait = resultCard.jokePortrait = new TextureAtlas.AtlasRegion(textures[1],0,0,textures[1].getWidth(),textures[1].getHeight());
 
         return resultCard;
     }
@@ -143,5 +148,30 @@ public class PartHelper {
         } else {
             return AbstractPart.PartType.PLATING;
         }
+    }
+
+    public static void setPartsOnContraption(ContraptionCard c, ArrayList<AbstractPart> parts) {
+        c.parts.clear();
+        c.parts.addAll(parts);
+        c.name = makeName(parts);
+        c.rawDescription = makeRawDesc(parts);
+        c.initializeDescription();
+        c.cost = makeCost(parts);
+        c.costForTurn = c.cost;
+        c.type = makeType(parts);
+        c.target = makeTarget(parts);
+        c.setPortraitTextures(makeImg(parts),makeImg(parts));
+        c.setDisplayRarity(AbstractCard.CardRarity.SPECIAL);
+
+        int potency = 0;
+        for (AbstractPart part : parts) potency += part.potencyChange();
+        if (potency < 0) potency = 0;
+        c.potency = potency;
+        for (AbstractPart part : parts) part.applyStats(c);
+        for (int i = 0; i < c.timesUpgraded; i++) {
+            for (AbstractPart part : parts) part.onUpgradeCard(c);
+        }
+        Texture[] textures = ImageMaker.makeImage(parts);
+        c.portrait = c.jokePortrait = new TextureAtlas.AtlasRegion(textures[1],0,0,textures[1].getWidth(),textures[1].getHeight());
     }
 }

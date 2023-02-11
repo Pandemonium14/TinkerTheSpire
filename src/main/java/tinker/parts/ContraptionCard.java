@@ -2,12 +2,14 @@ package tinker.parts;
 
 import basemod.abstracts.CustomCard;
 import basemod.abstracts.CustomSavable;
+import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import tinker.TinkerMod;
 import tinker.parts.platings.SearingPlating;
+import tinker.util.ImageMaker;
 import tinker.util.PartHelper;
 
 import java.util.ArrayList;
@@ -18,6 +20,8 @@ public class ContraptionCard extends CustomCard {
     public static final String ID = TinkerMod.makeID("ContraptionCard");
 
     public int potency;
+
+    public Texture portraitImage = null;
 
     public final ArrayList<AbstractPart> parts = new ArrayList<>();
 
@@ -56,12 +60,11 @@ public class ContraptionCard extends CustomCard {
         isMultiDamage = true;
     }
 
+
     @Override
     public AbstractCard makeCopy() {
-        ContraptionCard newCard = PartHelper.assembleCard(parts);
-        for (int i = 0 ; i<timesUpgraded; i++) {
-            newCard.upgrade();
-        }
+        AbstractCard newCard = super.makeCopy();
+        PartHelper.setPartsOnContraption((ContraptionCard) newCard, parts);
         return newCard;
     }
 
@@ -69,6 +72,11 @@ public class ContraptionCard extends CustomCard {
         for (AbstractPart part : parts) {
             consumer.accept(part);
         }
+    }
+
+    @Override
+    protected Texture getPortraitImage() {
+        return ImageMaker.makeLargeImage(parts);
     }
 
     public static class ContraptionSave implements CustomSavable<ArrayList<ArrayList<String>>> {
@@ -100,12 +108,13 @@ public class ContraptionCard extends CustomCard {
             }
             if (saves != null && indexesToReplace.size() <= saves.size()) {
                 for (int i : indexesToReplace) {
-                    ContraptionCard savedCard = PartHelper.assembleCardFromIds(saves.get(nbOfContraptions));
-                    nbOfContraptions++;
-                    for (int u = 0; u < AbstractDungeon.player.masterDeck.group.get(i).timesUpgraded; u++) {
-                        savedCard.upgrade();
+                    ContraptionCard blankCard = (ContraptionCard) AbstractDungeon.player.masterDeck.group.get(i);
+                    ArrayList<AbstractPart> partsToApply = new ArrayList<>();
+                    for (String id : saves.get(nbOfContraptions)) {
+                        partsToApply.add(PartHelper.getPart(id));
                     }
-                    AbstractDungeon.player.masterDeck.group.set(i, savedCard);
+                    nbOfContraptions++;
+                    PartHelper.setPartsOnContraption(blankCard, partsToApply);
                 }
             }
         }

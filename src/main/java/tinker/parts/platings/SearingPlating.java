@@ -1,5 +1,6 @@
 package tinker.parts.platings;
 
+import com.badlogic.gdx.graphics.Color;
 import tinker.TinkerMod;
 import tinker.parts.AbstractPart;
 import tinker.parts.ContraptionCard;
@@ -17,5 +18,10 @@ public class SearingPlating extends AbstractPart {
     @Override
     public int costChange() {
         return 1;
+    }
+
+    @Override
+    public Color colorToApply() {
+        return new Color(1f,0.8f,0f,1f);
     }
 }
