@@ -9,26 +9,39 @@ import tinker.parts.AbstractPart;
 import tinker.parts.ContraptionCard;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PartHelper {
 
-    public static ArrayList<AbstractPart> coreList = new ArrayList<>();
-    public static ArrayList<AbstractPart> frameList = new ArrayList<>();
-    public static ArrayList<AbstractPart> platingList = new ArrayList<>();
+    public static HashMap<String,AbstractPart> coreList = new HashMap<>();
+    public static HashMap<String,AbstractPart> frameList = new HashMap<>();
+    public static HashMap<String,AbstractPart> platingList = new HashMap<>();
 
     public static AbstractPart getRandomCore(Random rng) {
         int r = rng.random(coreList.size() - 1);
-        return coreList.get(r);
+        return coreList.values().toArray(new AbstractPart[0])[r];
     }
     public static AbstractPart getRandomFrame(Random rng) {
         int r = rng.random(frameList.size() - 1);
-        return frameList.get(r);
+        return frameList.values().toArray(new AbstractPart[0])[r];
     }
     public static AbstractPart getRandomPlating(Random rng) {
         int r = rng.random(platingList.size() - 1);
-        return platingList.get(r);
+        return platingList.values().toArray(new AbstractPart[0])[r];
     }
 
+    public static AbstractPart getPart(String ID) {
+        if (coreList.containsKey(ID)) return coreList.get(ID);
+        if (frameList.containsKey(ID)) return frameList.get(ID);
+        if (platingList.containsKey(ID)) return platingList.get(ID);
+        return null;
+    }
+
+    public static ContraptionCard assembleCardFromIds(ArrayList<String> partIds) {
+        ArrayList<AbstractPart> parts = new ArrayList<>();
+        partIds.forEach((id) -> parts.add(getPart(id)));
+        return assembleCard(parts);
+    }
 
 
     public static ContraptionCard assembleCard(ArrayList<AbstractPart> parts) {
@@ -121,11 +134,11 @@ public class PartHelper {
 
     public static AbstractPart.PartType rollTypeForMap() {
         int r = AbstractDungeon.mapRng.random(99);
-        if (r < 70) {
+        if (r < 40) {
             return null;
-        } else if (r < 80) {
+        } else if (r < 60) {
             return AbstractPart.PartType.FRAME;
-        } else if (r < 90) {
+        } else if (r < 80) {
             return AbstractPart.PartType.CORE;
         } else {
             return AbstractPart.PartType.PLATING;

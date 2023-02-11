@@ -1,8 +1,10 @@
 package tinker.parts;
 
 import basemod.abstracts.CustomCard;
+import basemod.abstracts.CustomSavable;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import tinker.TinkerMod;
 import tinker.parts.platings.SearingPlating;
@@ -66,6 +68,46 @@ public class ContraptionCard extends CustomCard {
     private void forAllParts(Consumer<AbstractPart> consumer) {
         for (AbstractPart part : parts) {
             consumer.accept(part);
+        }
+    }
+
+    public static class ContraptionSave implements CustomSavable<ArrayList<ArrayList<String>>> {
+
+
+        @Override
+        public ArrayList<ArrayList<String>> onSave() {
+            ArrayList<ArrayList<String>> saves = new ArrayList<>();
+            for (AbstractCard card : AbstractDungeon.player.masterDeck.group) {
+                if (card instanceof ContraptionCard) {
+                    ContraptionCard cCard = (ContraptionCard) card;
+                    ArrayList<String> partsIds = new ArrayList<>();
+                    cCard.parts.forEach((p) -> partsIds.add(p.part_id));
+                    saves.add(partsIds);
+                }
+            }
+            return saves;
+        }
+
+        @Override
+        public void onLoad(ArrayList<ArrayList<String>> saves) {
+            int nbOfContraptions = 0;
+            ArrayList<Integer> indexesToReplace = new ArrayList<>();
+            for (int i = 0; i< AbstractDungeon.player.masterDeck.group.size(); i++) {
+                AbstractCard card = AbstractDungeon.player.masterDeck.group.get(i);
+                if (card instanceof ContraptionCard) {
+                    indexesToReplace.add(i);
+                }
+            }
+            if (saves != null && indexesToReplace.size() <= saves.size()) {
+                for (int i : indexesToReplace) {
+                    ContraptionCard savedCard = PartHelper.assembleCardFromIds(saves.get(nbOfContraptions));
+                    nbOfContraptions++;
+                    for (int u = 0; u < AbstractDungeon.player.masterDeck.group.get(i).timesUpgraded; u++) {
+                        savedCard.upgrade();
+                    }
+                    AbstractDungeon.player.masterDeck.group.set(i, savedCard);
+                }
+            }
         }
     }
 }

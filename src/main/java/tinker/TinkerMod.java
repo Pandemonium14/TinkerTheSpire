@@ -11,10 +11,13 @@ import com.megacrit.cardcrawl.rewards.RewardSave;
 import tinker.cards.LevelIcon;
 import tinker.cards.TestCard;
 import tinker.parts.AbstractPart;
+import tinker.parts.ContraptionCard;
 import tinker.parts.PartReward;
 import tinker.patches.Enums;
 import tinker.ui.PartPouch;
 import tinker.util.PartHelper;
+
+import java.beans.beancontext.BeanContextServiceAvailableEvent;
 
 @SuppressWarnings({"unused", "WeakerAccess"})
 @SpireInitializer
@@ -46,15 +49,20 @@ public class TinkerMod implements PostInitializeSubscriber, EditStringsSubscribe
 
     @Override
     public void receivePostInitialize() {
-        new AutoAdd(modID).packageFilter("tinker.parts.cores").any(AbstractPart.class, (info,part) -> PartHelper.coreList.add(part));
-        new AutoAdd(modID).packageFilter("tinker.parts.frames").any(AbstractPart.class, (info,part) -> PartHelper.frameList.add(part));
-        new AutoAdd(modID).packageFilter("tinker.parts.platings").any(AbstractPart.class, (info,part) -> PartHelper.platingList.add(part));
+        new AutoAdd(modID).packageFilter("tinker.parts.cores").any(AbstractPart.class, (info,part) -> PartHelper.coreList.put(part.part_id, part));
+        new AutoAdd(modID).packageFilter("tinker.parts.frames").any(AbstractPart.class, (info,part) -> PartHelper.frameList.put(part.part_id, part));
+        new AutoAdd(modID).packageFilter("tinker.parts.platings").any(AbstractPart.class, (info,part) -> PartHelper.platingList.put(part.part_id, part));
 
-        BaseMod.addTopPanelItem(new PartPouch());
+        PartPouch pouch = new PartPouch();
+        BaseMod.addTopPanelItem(pouch);
+        BaseMod.addSaveField(makeID("PartPouchContent"), pouch);
+
+        BaseMod.addSaveField(makeID("SavedContraptionCards"), new ContraptionCard.ContraptionSave());
 
         BaseMod.registerCustomReward(Enums.TINKER_PART_REWARD,
                 rewardSave -> new PartReward(PartReward.stringToType(rewardSave.type)),
                 customReward -> new RewardSave(((PartReward)customReward).partType.toString(),null, 0,0));
+
     }
 
     @Override
@@ -66,5 +74,6 @@ public class TinkerMod implements PostInitializeSubscriber, EditStringsSubscribe
     public void receiveEditCards() {
         CustomIconHelper.addCustomIcon(LevelIcon.get());
         BaseMod.addCard(new TestCard());
+        BaseMod.addCard(new ContraptionCard());
     }
 }

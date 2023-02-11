@@ -2,6 +2,14 @@
   "${ModID}:PartReward": {
     "TEXT" : ["Pick up Frame parts","Pick up Core parts","Pick up Plating parts"]
   },
+  "${ModID}:PartPouch": {
+    "TEXT" : ["Part Pouch"],
+    "EXTRA_TEXT" : ["Stores the parts you've found in the Spire. You have: NL "," #yFrame NL "," #yCore NL "," #yPlating"," #yFrames NL "," #yCores NL "," #yPlatings"]
+  },
+  "${ModID}:TinkerCampfireOption": {
+    "TEXT" : ["Assemble a Contraption"],
+    "EXTRA_TEXT" : ["Use a Frame, a Core and a Plating to create a card.","Assembling a Contraption requires a part of each type in your Part Pouch."]
+  },
   "${ModID}:BeamCore": {
     "TEXT" : ["","Beam","","","Deal !D! damage to ALL enemies.",""],
     "EXTRA_TEXT" : ["Beam Core","Deal 5 [tinkermod:LevelIcon] damage to ALL enemies."]

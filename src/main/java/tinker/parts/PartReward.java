@@ -11,6 +11,7 @@ import com.megacrit.cardcrawl.rewards.RewardItem;
 import jdk.javadoc.internal.doclets.formats.html.PackageUseWriter;
 import tinker.TinkerMod;
 import tinker.patches.Enums;
+import tinker.ui.PartPouch;
 import tinker.util.TexLoader;
 
 public class PartReward extends CustomReward {
@@ -47,7 +48,8 @@ public class PartReward extends CustomReward {
 
     @Override
     public boolean claimReward() {
-        return false;
+        PartPouch.addPart(partType);
+        return true;
     }
 
 
@@ -68,4 +70,5 @@ public class PartReward extends CustomReward {
             default: return AbstractPart.PartType.FRAME;
         }
     }
+
 }

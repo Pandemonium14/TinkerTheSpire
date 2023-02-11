@@ -11,6 +11,7 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import tinker.TinkerMod;
+import tinker.actions.AssembleCampfireEffect;
 import tinker.actions.AssembleFromRandomAction;
 import tinker.parts.frames.HeavyFrame;
 import tinker.util.TexLoader;
@@ -42,6 +43,9 @@ public class PartDisplayCard extends CustomCard {
     public void onChoseThisOption() {
         if (AssembleFromRandomAction.isActive) {
             AssembleFromRandomAction.receivePart(part);
+        }
+        if (AssembleCampfireEffect.isActive) {
+            AssembleCampfireEffect.receivePart(part);
         }
     }
 
