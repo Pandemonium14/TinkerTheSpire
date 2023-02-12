@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import tinker.TinkerMod;
+import tinker.cards.TestCard;
 import tinker.parts.AbstractPart;
 
 import java.util.ArrayList;
@@ -26,8 +27,8 @@ public class ImageMaker {
 
     private static void setupShader(Color rColor, Color lColor, float angle) {
         if (shader == null) {
-            shader = new ShaderProgram(TinkerMod.makePath("shader/splitWheelVertex.vs"),
-                    TinkerMod.makePath("shader/splitWheelFragment.fs"));
+            shader = new ShaderProgram(Gdx.files.internal("tinkermodResources/shaders/splitWheelVertex.vs"),
+                    Gdx.files.internal("tinkermodResources/shaders/splitWheelFragment.fs"));
             if (!shader.isCompiled()) {
                 System.err.println(shader.getLog());
             }
@@ -76,10 +77,11 @@ public class ImageMaker {
         setupShader(frame.colorToApply(),plating.colorToApply(), core.splitAngle());
 
         beginLargeBuffer();
-        largeSb.setShader(shader);
+        //largeSb.setShader(shader);
         largeSb.draw(core.basePortrait(),0,0);
-        endLargeBuffer();
         TextureRegion large_image = new TextureRegion(largeBuffer.getColorBufferTexture());
+        endLargeBuffer();
+
         BaseMod.logger.info(large_image.getRegionWidth() +" , "+ large_image.getRegionHeight());
         large_image.flip(false,true);
 
@@ -127,10 +129,11 @@ public class ImageMaker {
         setupShader(frame.colorToApply(),plating.colorToApply(), core.splitAngle());
 
         beginLargeBuffer();
-        largeSb.setShader(shader);
+        //largeSb.setShader(shader);
         largeSb.draw(core.basePortrait(),0,0);
-        endLargeBuffer();
         TextureRegion large_image = new TextureRegion(largeBuffer.getColorBufferTexture());
+        endLargeBuffer();
+
         BaseMod.logger.info(large_image.getRegionWidth() +" , "+ large_image.getRegionHeight());
         large_image.flip(false,true);
 

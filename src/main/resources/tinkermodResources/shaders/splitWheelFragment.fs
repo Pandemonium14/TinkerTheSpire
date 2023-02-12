@@ -17,7 +17,7 @@ uniform sampler2D u_texture;
 uniform vec2 u_screenSize;
 
 void main() {
-	vec4 color = texture(u_texture, v_texCoord);
+	vec4 color = texture2D(u_texture, v_texCoord);
 
 	//calculate pixel hue
     float m = min(color.r, color.g);
@@ -50,7 +50,7 @@ void main() {
         gl_FragColor = vec4(newColor,color.a);
     } else {
         vec3 newColor = vec3(u_rRed,u_rGreen,u_rBlue);
-                newColor = newColor*almostL;
-                gl_FragColor = vec4(newColor,color.a);
+        newColor = newColor*almostL;
+        gl_FragColor = vec4(newColor,color.a);
     }
 }
