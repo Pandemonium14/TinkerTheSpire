@@ -64,7 +64,8 @@ public class ContraptionCard extends CustomCard {
     @Override
     public AbstractCard makeCopy() {
         AbstractCard newCard = super.makeCopy();
-        PartHelper.setPartsOnContraption((ContraptionCard) newCard, parts);
+        PartHelper.setPartsOnContraption((ContraptionCard) newCard, parts, false);
+        newCard.portrait = newCard.jokePortrait = this.portrait;
         return newCard;
     }
 

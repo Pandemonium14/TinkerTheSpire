@@ -22,6 +22,6 @@ public class SearingPlating extends AbstractPart {
 
     @Override
     public Color colorToApply() {
-        return new Color(1f,0.8f,0f,1f);
+        return new Color(1f,0.7f,0f,0.7f);
     }
 }

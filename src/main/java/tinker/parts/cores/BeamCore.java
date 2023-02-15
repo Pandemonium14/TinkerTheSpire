@@ -1,5 +1,7 @@
 package tinker.parts.cores;
 
+import basemod.Pair;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
@@ -48,11 +50,18 @@ public class BeamCore extends AbstractPart {
 
     @Override
     public Texture basePortrait() {
-        return TexLoader.getTexture("images/1024Portraits/blue/attack/sweeping_beam.png");
+        return getBaseGamePortrait("blue/attack/sweeping_beam");
     }
 
     @Override
     public float splitAngle() {
-        return 90f;
+        return 45f;
+    }
+
+    @Override
+    public Pair<Color, Color> anchorColors() {
+        return new Pair<>(
+                new Color(72f/255f,182f/255f,255f/255f, 1f),
+                new Color(66f/255f,0f/255f,0f/255f, 1f));
     }
 }

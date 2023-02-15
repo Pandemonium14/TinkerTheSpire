@@ -45,5 +45,17 @@
   "${ModID}:SearingPlating": {
     "TEXT" : ["",""," of the Forge","",""," NL Can be Upgraded any number of times."],
     "EXTRA_TEXT" : ["Forged Plating","Can be Upgraded any number of times."]
+  },
+  "${ModID}:StableFrame": {
+    "TEXT" : ["Stable ","","","Retain NL ","",""],
+    "EXTRA_TEXT" : ["Stable Plating","Retain."]
+  },
+  "${ModID}:HolographicCore": {
+    "TEXT" : ["","Hologram","","","Add !M! cards from your discard pile to your hand.",""],
+    "EXTRA_TEXT" : ["Holographic Core","Add [tinkermod:LevelIcon] cards from your discard pile to your hand."]
+  },
+  "${ModID}:FollowUpPlating": {
+    "TEXT" : ["Following ","","","",""," NL If the last card played was an Attack, gain [E] ."],
+    "EXTRA_TEXT" : ["Follow Up Plating","If the last card played was an Attack, gain [E] ."]
   }
 }

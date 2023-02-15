@@ -39,6 +39,6 @@ public class TurboFrame extends AbstractPart {
 
     @Override
     public Color colorToApply() {
-        return new Color(0.2f,1f,1f,1f);
+        return new Color(0.3f,1f,1f,0.6f);
     }
 }

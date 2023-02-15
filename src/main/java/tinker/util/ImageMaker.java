@@ -1,12 +1,14 @@
 package tinker.util;
 
 import basemod.BaseMod;
+import basemod.Pair;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.utils.compression.lzma.Base;
 import tinker.TinkerMod;
 import tinker.cards.TestCard;
 import tinker.parts.AbstractPart;
@@ -25,25 +27,34 @@ public class ImageMaker {
     private static SpriteBatch smallSb;
     private static OrthographicCamera smallCam = new OrthographicCamera(250,190);
 
-    private static void setupShader(Color rColor, Color lColor, float angle) {
+    private static void initShader() {
         if (shader == null) {
             shader = new ShaderProgram(Gdx.files.internal("tinkermodResources/shaders/splitWheelVertex.vs"),
-                    Gdx.files.internal("tinkermodResources/shaders/splitWheelFragment.fs"));
+                    Gdx.files.internal("tinkermodResources/shaders/splitWheelFragment2.fs"));
             if (!shader.isCompiled()) {
                 System.err.println(shader.getLog());
             }
             if (shader.getLog().length() > 0) {
                 System.out.println(shader.getLog());
             }
-            BaseMod.logger.info("============ Just initialized rainbow Shader");
         }
-        shader.setUniformf("u_rRed", rColor.r);
-        shader.setUniformf("u_rGreen", rColor.g);
-        shader.setUniformf("u_rBlue", rColor.b);
-        shader.setUniformf("u_lRed", lColor.r);
-        shader.setUniformf("u_lGreen", lColor.g);
-        shader.setUniformf("u_lBlue", lColor.b);
-        shader.setUniformf("u_splitAngle", angle);
+    }
+
+    private static void setupShader(Color rColor, Color lColor, Pair<Color, Color> anchors) {
+        shader.setUniformf("rRed", rColor.r);
+        shader.setUniformf("rGreen", rColor.g);
+        shader.setUniformf("rBlue", rColor.b);
+        shader.setUniformf("rLumFactor", rColor.a);
+        shader.setUniformf("lRed", lColor.r);
+        shader.setUniformf("lGreen", lColor.g);
+        shader.setUniformf("lBlue", lColor.b);
+        shader.setUniformf("lLumFactor", lColor.a);
+        shader.setUniformf("anchorAR", anchors.getKey().r);
+        shader.setUniformf("anchorAG", anchors.getKey().g);
+        shader.setUniformf("anchorAB", anchors.getKey().b);
+        shader.setUniformf("anchorBR", anchors.getValue().r);
+        shader.setUniformf("anchorBG", anchors.getValue().g);
+        shader.setUniformf("anchorBB", anchors.getValue().b);
     }
 
     public static Texture[] makeImage(ArrayList<AbstractPart> parts) {
@@ -74,11 +85,13 @@ public class ImageMaker {
     }
 
     public static Texture[] makeImage(AbstractPart core, AbstractPart frame, AbstractPart plating) {
-        setupShader(frame.colorToApply(),plating.colorToApply(), core.splitAngle());
-
+        initShader();
         beginLargeBuffer();
-        //largeSb.setShader(shader);
-        largeSb.draw(core.basePortrait(),0,0);
+        largeSb.setShader(shader);
+        setupShader(frame.colorToApply(),plating.colorToApply(), core.anchorColors());
+        TextureRegion region = new TextureRegion(core.basePortrait());
+        region.flip(false,true);
+        largeSb.draw(region,-250,-190);
         TextureRegion large_image = new TextureRegion(largeBuffer.getColorBufferTexture());
         endLargeBuffer();
 
@@ -86,7 +99,7 @@ public class ImageMaker {
         large_image.flip(false,true);
 
         beginSmallBuffer();
-        smallSb.draw(large_image,0,0,250,190);
+        smallSb.draw(large_image,-125,-95,250,190);
         endSmallBuffer();
 
         TextureRegion small_image = new TextureRegion(smallBuffer.getColorBufferTexture());
@@ -126,29 +139,31 @@ public class ImageMaker {
     }
 
     public static Texture makeLargeImage(AbstractPart core, AbstractPart frame, AbstractPart plating) {
-        setupShader(frame.colorToApply(),plating.colorToApply(), core.splitAngle());
+        initShader();
 
         beginLargeBuffer();
-        //largeSb.setShader(shader);
-        largeSb.draw(core.basePortrait(),0,0);
+        largeSb.setShader(shader);
+        setupShader(frame.colorToApply(),plating.colorToApply(), core.anchorColors());
+        TextureRegion region = new TextureRegion(core.basePortrait());
+        region.flip(false,true);
+        largeSb.draw(region,-250,-190);
         TextureRegion large_image = new TextureRegion(largeBuffer.getColorBufferTexture());
         endLargeBuffer();
 
         BaseMod.logger.info(large_image.getRegionWidth() +" , "+ large_image.getRegionHeight());
-        large_image.flip(false,true);
 
         return large_image.getTexture();
     }
 
     private static void beginLargeBuffer() {
-        if (largeBuffer == null) {
-            largeBuffer = new FrameBuffer(Pixmap.Format.RGBA8888,500,380,false);
-        }
+        largeBuffer = new FrameBuffer(Pixmap.Format.RGBA8888,500,380,false);
+
         if (largeSb == null) {
             largeSb = new SpriteBatch();
             largeSb.setProjectionMatrix(largeCam.combined);
             largeSb.setColor(Color.WHITE);
         }
+        BaseMod.logger.info("Starting Buffer");
         largeSb.begin();
         largeBuffer.begin();
         Gdx.gl.glClearColor(0.0F, 0.0F, 0.0F, 0.0F);
@@ -157,15 +172,15 @@ public class ImageMaker {
     }
 
     private static void endLargeBuffer() {
+        BaseMod.logger.info("Ending buffer");
         largeSb.flush();
-        largeBuffer.end();
         largeSb.end();
+        largeBuffer.end();
     }
 
     private static void beginSmallBuffer() {
-        if (smallBuffer == null) {
-            smallBuffer = new FrameBuffer(Pixmap.Format.RGBA8888,250,190,false);
-        }
+        smallBuffer = new FrameBuffer(Pixmap.Format.RGBA8888,250,190,false);
+
         if (smallSb == null) {
             smallSb = new SpriteBatch();
             smallSb.setProjectionMatrix(smallCam.combined);
@@ -180,7 +195,8 @@ public class ImageMaker {
 
     private static void endSmallBuffer() {
         smallSb.flush();
-        smallBuffer.end();
         smallSb.end();
+        smallBuffer.end();
+
     }
 }

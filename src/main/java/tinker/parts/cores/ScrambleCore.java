@@ -1,5 +1,8 @@
 package tinker.parts.cores;
 
+import basemod.Pair;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
@@ -47,4 +50,20 @@ public class ScrambleCore extends AbstractPart {
         return AbstractCard.CardTarget.ENEMY;
     }
 
+    @Override
+    public Texture basePortrait() {
+        return getBaseGamePortrait("red/skill/intimidate");
+    }
+
+    @Override
+    public float splitAngle() {
+        return 110f;
+    }
+
+    @Override
+    public Pair<Color, Color> anchorColors() {
+        return new Pair<>(
+                new Color(106f/255f,128f/255f,46f/255f, 1f),
+                new Color(34f/255f,31f/255f,51f/255f, 1f));
+    }
 }

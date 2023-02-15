@@ -3,11 +3,10 @@ package tinker.parts.cores;
 import basemod.Pair;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
-import com.megacrit.cardcrawl.actions.common.DamageAllEnemiesAction;
+import com.megacrit.cardcrawl.actions.common.BetterDiscardPileToHandAction;
+import com.megacrit.cardcrawl.actions.defect.DiscardPileToHandAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
-import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
@@ -17,11 +16,11 @@ import tinker.TinkerMod;
 import tinker.parts.AbstractPart;
 import tinker.parts.ContraptionCard;
 
-public class ShockwaveCore extends AbstractPart {
+public class HolographicCore extends AbstractPart {
 
-    public static final String ID = TinkerMod.makeID("ShockwaveCore");
+    public static final String ID = TinkerMod.makeID("HolographicCore");
 
-    public ShockwaveCore() {
+    public HolographicCore() {
         super(ID, PartType.CORE);
     }
 
@@ -39,20 +38,17 @@ public class ShockwaveCore extends AbstractPart {
 
     @Override
     public void useEffect(AbstractPlayer p, AbstractMonster m, ContraptionCard c) {
-        for (AbstractMonster mo : AbstractDungeon.getMonsters().monsters) {
-            addToBot(new ApplyPowerAction(mo, p, new WeakPower(mo, c.magicNumber, false)));
-            addToBot(new ApplyPowerAction(mo, p, new VulnerablePower(mo, c.magicNumber, false)));
-        }
+        addToBot(new BetterDiscardPileToHandAction(c.magicNumber));
     }
 
     @Override
     public AbstractCard.CardTarget minimalTarget() {
-        return AbstractCard.CardTarget.ALL_ENEMY;
+        return AbstractCard.CardTarget.SELF;
     }
 
     @Override
     public Texture basePortrait() {
-        return getBaseGamePortrait("red/skill/shockwave");
+        return getBaseGamePortrait("blue/skill/hologram");
     }
 
     @Override
@@ -63,7 +59,7 @@ public class ShockwaveCore extends AbstractPart {
     @Override
     public Pair<Color, Color> anchorColors() {
         return new Pair<>(
-                new Color(144f/255f,244f/255f,255f/255f, 1f),
-                new Color(68f/255f,24f/255f,50f/255f, 1f));
+                new Color(176f/255f,165f/255f,130f/255f, 1f),
+                new Color(2f/255f,15f/255f,31f/255f, 1f));
     }
 }

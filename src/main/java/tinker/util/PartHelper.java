@@ -151,6 +151,10 @@ public class PartHelper {
     }
 
     public static void setPartsOnContraption(ContraptionCard c, ArrayList<AbstractPart> parts) {
+        setPartsOnContraption(c,parts,true);
+    }
+
+    public static void setPartsOnContraption(ContraptionCard c, ArrayList<AbstractPart> parts, boolean makeImage) {
         c.parts.clear();
         c.parts.addAll(parts);
         c.name = makeName(parts);
@@ -171,7 +175,9 @@ public class PartHelper {
         for (int i = 0; i < c.timesUpgraded; i++) {
             for (AbstractPart part : parts) part.onUpgradeCard(c);
         }
-        Texture[] textures = ImageMaker.makeImage(parts);
-        c.portrait = c.jokePortrait = new TextureAtlas.AtlasRegion(textures[1],0,0,textures[1].getWidth(),textures[1].getHeight());
+        if (makeImage) {
+            Texture[] textures = ImageMaker.makeImage(parts);
+            c.portrait = c.jokePortrait = new TextureAtlas.AtlasRegion(textures[1], 0, 0, textures[1].getWidth(), textures[1].getHeight());
+        }
     }
 }

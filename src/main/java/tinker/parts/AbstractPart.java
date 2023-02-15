@@ -1,5 +1,6 @@
 package tinker.parts;
 
+import basemod.Pair;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
@@ -69,12 +70,19 @@ public abstract class AbstractPart {
     public Texture basePortrait() {return TexLoader.getTexture(TinkerMod.MISSING);}
     public Color colorToApply() {return Color.BLACK;}
     public float splitAngle() {return 0f;}
+    public Pair<Color,Color> anchorColors() {
+        return new Pair<>(Color.WHITE, Color.BLACK);
+    }
     //end
 
     //
     //end hooks
     //
 
+
+    public static Texture getBaseGamePortrait(String path) {
+        return TexLoader.getTexture("images/1024Portraits/" + path + ".png");
+    }
 
     @Override
     public boolean equals(Object p) {

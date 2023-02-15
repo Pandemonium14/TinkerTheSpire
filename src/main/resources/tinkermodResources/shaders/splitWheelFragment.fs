@@ -13,11 +13,14 @@ uniform float u_rGreen;
 uniform float u_rBlue;
 uniform float u_splitAngle;
 
+uniform float u_lLumFactor;
+uniform float u_rLumFactor;
+
 uniform sampler2D u_texture;
 uniform vec2 u_screenSize;
 
 void main() {
-	vec4 color = texture2D(u_texture, v_texCoord);
+	vec4 color = texture(u_texture, v_texCoord);
 
 	//calculate pixel hue
     float m = min(color.r, color.g);
@@ -46,11 +49,13 @@ void main() {
 
     if (hue < lowerSplit || hue >= upperSplit) {
         vec3 newColor = vec3(u_lRed,u_lGreen,u_lBlue);
-        newColor = newColor*almostL;
+        float lF = (u_lLumFactor*2)-1;
+        newColor = newColor*( lF + (1-lF)*almostL );
         gl_FragColor = vec4(newColor,color.a);
     } else {
         vec3 newColor = vec3(u_rRed,u_rGreen,u_rBlue);
-        newColor = newColor*almostL;
+        float rF = (u_rLumFactor*2)-1;
+        newColor = newColor*( rF + (1-rF)*almostL );
         gl_FragColor = vec4(newColor,color.a);
     }
 }
